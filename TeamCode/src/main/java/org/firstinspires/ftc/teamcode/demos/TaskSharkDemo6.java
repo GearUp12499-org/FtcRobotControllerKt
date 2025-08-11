@@ -38,21 +38,15 @@ public class TaskSharkDemo6 extends LinearOpMode {
 
         Scheduler scheduler = new FastScheduler();
 
-        FakeMotor frontLeft = new FakeMotor("frontLeft");
-
-scheduler.add(new OneShot(() -> frontLeft.setPower(1.0)).require(DRIVE_MOTORS));
-
-        scheduler.add(Wait.s(3))
-                .then(new OneShot(() -> Log.i("Demo", "waited 3 seconds")))
-                .then(Wait.s(2));
+        // Imagine this 3 second wait does something with the drive motors
+        scheduler.add(
+                Wait.s(3).require(DRIVE_MOTORS)
+        );
+        // And here's a second thing, with a 200 ms delay
+        scheduler.add(Wait.ms(200))
+                        .then(Wait.s(3).require(DRIVE_MOTORS));
 
         waitForStart();
         while (opModeIsActive()) scheduler.tick();
     }
-
-public abstract static class ExampleTask extends Task<ExampleTask> {
-    { // Instance initializer block
-        require(DRIVE_MOTORS);
-    }
-}
 }
