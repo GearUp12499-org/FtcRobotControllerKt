@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -15,6 +14,7 @@ import io.github.gearup12499.taskshark.FastScheduler;
 import io.github.gearup12499.taskshark.Scheduler;
 import io.github.gearup12499.taskshark.Task;
 import io.github.gearup12499.taskshark.api.BuiltInTags;
+import io.github.gearup12499.taskshark.api.LogOutlet;
 import io.github.gearup12499.taskshark.prefabs.OneShot;
 import io.github.gearup12499.taskshark.prefabs.Wait;
 import io.github.gearup12499.taskshark_android.TaskSharkAndroid;
@@ -22,12 +22,13 @@ import io.github.gearup12499.taskshark_android.TaskSharkAndroid;
 /**
  * Or run something continuously...
  */
-@Disabled
+
 @Autonomous
 public class TaskSharkDemo5 extends LinearOpMode {
     @Override
     public void runOpMode() {
         TaskSharkAndroid.setup();
+        LogOutlet.getCurrentLogger().setLevel(LogOutlet.Level.Debug);
 
         Scheduler scheduler = new FastScheduler();
 
@@ -40,7 +41,7 @@ public class TaskSharkDemo5 extends LinearOpMode {
         while (opModeIsActive()) scheduler.tick();
     }
 
-    public static class BackgroundTask extends Task {
+    public static class BackgroundTask extends Task<BackgroundTask> {
         private final ElapsedTime timer = new ElapsedTime();
 
         @NonNull

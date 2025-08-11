@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.demos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -11,14 +10,16 @@ import org.firstinspires.ftc.teamcode.testing.FakeMotor;
 import io.github.gearup12499.taskshark.FastScheduler;
 import io.github.gearup12499.taskshark.Scheduler;
 import io.github.gearup12499.taskshark.Task;
+import io.github.gearup12499.taskshark.api.LogOutlet;
 import io.github.gearup12499.taskshark_android.TaskSharkAndroid;
 
-@Disabled
+
 @Autonomous
 public class TaskSharkDemo3_finished extends LinearOpMode {
     @Override
     public void runOpMode() {
         TaskSharkAndroid.setup();
+        LogOutlet.getCurrentLogger().setLevel(LogOutlet.Level.Debug);
 
         Scheduler scheduler = new FastScheduler();
 
@@ -40,7 +41,7 @@ public class TaskSharkDemo3_finished extends LinearOpMode {
         }
     }
 
-    public static class RunToPositionTask extends Task {
+    public static class RunToPositionTask extends Task<RunToPositionTask> {
         public static final int TOLERANCE = 10;
 
         private final DcMotor motor;
