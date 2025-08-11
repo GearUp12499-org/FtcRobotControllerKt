@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.demos;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,6 +13,7 @@ import io.github.gearup12499.taskshark.FastScheduler;
 import io.github.gearup12499.taskshark.Scheduler;
 import io.github.gearup12499.taskshark.Task;
 import io.github.gearup12499.taskshark.api.LogOutlet;
+import io.github.gearup12499.taskshark.prefabs.OneShot;
 import io.github.gearup12499.taskshark_android.TaskSharkAndroid;
 
 
@@ -29,7 +32,8 @@ public class TaskSharkDemo3 extends LinearOpMode {
         slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         slide.setPower(0.5);
 
-        scheduler.add(new RunToPositionTask(/* TODO */));
+        scheduler.add(new RunToPositionTask(slide, 1200))
+                .then(new OneShot(() -> Log.i("Demo", "made it!")));
 
         waitForStart();
         ElapsedTime e = new ElapsedTime();
@@ -37,24 +41,30 @@ public class TaskSharkDemo3 extends LinearOpMode {
         while (opModeIsActive()) {
             scheduler.tick();
 
-            slide.simulate(e.seconds() - lastTime);
+            double now = e.seconds();
+            slide.simulate(now - lastTime);
         }
     }
 
     public static class RunToPositionTask extends Task<RunToPositionTask> {
-        public RunToPositionTask(/* TODO */) {
-            /* TODO */
+        public static final int tolerance = 10;
+
+        private final DcMotor motor;
+        private final int position;
+
+        public RunToPositionTask(DcMotor motor, int position) {
+            this.motor = motor;
+            this.position = position;
         }
 
         @Override
         public void onStart() {
-            /* TODO */
+            motor.setTargetPosition(position);
         }
 
         @Override
         public boolean onTick() {
-            /* TODO */
-            return false;
+            return Math.abs(motor.getCurrentPosition() - position) < tolerance;
         }
     }
 }

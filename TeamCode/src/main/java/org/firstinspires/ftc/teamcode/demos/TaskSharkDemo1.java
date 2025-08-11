@@ -39,11 +39,6 @@ public class TaskSharkDemo1 extends LinearOpMode {
                 .then(Wait.s(3))
                 // then set the servo to 0
                 .then(new OneShot(() -> exampleServo.setPosition(0.0)));
-        // Add some tasks ("setup")
-scheduler
-        .add(new OneShot(() -> exampleServo.setPosition(1.0)))
-        .then(Wait.s(3))
-        .then(new OneShot(() -> exampleServo.setPosition(0.0)));
         /*
         Note that none of that servo stuff has actually _happened_ yet!
         This is more of a 'planning' phase where you describe what's going to happen

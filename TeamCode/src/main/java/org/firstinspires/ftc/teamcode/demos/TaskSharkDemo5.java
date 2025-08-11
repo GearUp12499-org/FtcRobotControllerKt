@@ -57,7 +57,10 @@ public class TaskSharkDemo5 extends LinearOpMode {
 
         @Override
         public boolean onTick() {
-            if (timer.seconds() > 0.25) Log.i("Demo", "the background task is running!");
+            if (timer.seconds() > 0.25) {
+                Log.i("Demo", "the background task is running!");
+                timer.reset();
+            }
             // Returning 'false' makes the task never end.
             return false;
         }

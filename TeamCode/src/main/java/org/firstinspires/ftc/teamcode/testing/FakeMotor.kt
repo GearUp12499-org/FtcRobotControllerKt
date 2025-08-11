@@ -118,7 +118,7 @@ class FakeMotor(val name: String) : DcMotor {
     }
 
     companion object {
-        const val MAX_SPEED = 900 // ticks per second, 1.0 power (naive linear approx.)
+        const val MAX_SPEED = 90 // ticks per second, 1.0 power (naive linear approx.)
     }
 
     /**
